@@ -39,6 +39,7 @@ Steps to Run
 Clone the repository:
 
 git clone https://github.com/raviteja3720/Car-Insurance-Application-Backend.git
+
 cd Car-Insurance-Application-Backend
 
 Configure the database in application.properties:
