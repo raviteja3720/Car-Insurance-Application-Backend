@@ -58,6 +58,7 @@ Access the API documentation at:
 http://localhost:8080/swagger-ui/index.html
 
 
+
 REST API Endpoints
 
 Policy Controller
@@ -75,6 +76,8 @@ Policy Controller
   GET /Api/Policies/cancelPolicy/{PolicyNumber}
   
   GET /Api/Policies/activatePolicy/{PolicyNumber}
+  
+
 
 Sequence Number Controller
 
@@ -83,6 +86,8 @@ Sequence Number Controller
   GET /Api/Policies/generatePolicyNumber
   
   GET /Api/Policies/generateDriverId
+
+
 
 Driver Controller
 
@@ -95,8 +100,11 @@ Driver Controller
   GET /Api/Driver/getAllDriverDetailsByPolicyNumber
   
   DELETE /Api/Driver/DeleteDriverByPolicyNumberAndDriverId
+  
+
 
 Vehicle Controller
+
   POST /Api/Vehicle/updateVehicleByPolicyNumberAndVehicleId
   
   POST /Api/Vehicle/addVehicleByPolicyNumber
