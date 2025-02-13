@@ -61,29 +61,48 @@ http://localhost:8080/swagger-ui/index.html
 REST API Endpoints
 
 Policy Controller
+
   POST /Api/Policies/updateInsuredDetails
+  
   POST /Api/Policies/CreatePolicy
+  
   GET /Api/Policies/getPolicyDetailsByPolicyNumber/{policyNumber}
+  
   GET /Api/Policies/getCoverageDetails/{PolicyNumber}
+  
   GET /Api/Policies/getAllPolicies
+  
   GET /Api/Policies/cancelPolicy/{PolicyNumber}
+  
   GET /Api/Policies/activatePolicy/{PolicyNumber}
 
 Sequence Number Controller
+
   GET /Api/Policies/generateVehicleId
+  
   GET /Api/Policies/generatePolicyNumber
+  
   GET /Api/Policies/generateDriverId
 
 Driver Controller
+
   POST /Api/Driver/updateDriverByPolicyNumberAndDriverId
+  
   POST /Api/Driver/addDriverByPolicyNumber
+  
   GET /Api/Driver/getDriverDetailsByPolicyNumberAndDriverId
+  
   GET /Api/Driver/getAllDriverDetailsByPolicyNumber
+  
   DELETE /Api/Driver/DeleteDriverByPolicyNumberAndDriverId
 
 Vehicle Controller
   POST /Api/Vehicle/updateVehicleByPolicyNumberAndVehicleId
+  
   POST /Api/Vehicle/addVehicleByPolicyNumber
+  
   GET /Api/Vehicle/getVehicleDetailsByPolicyNumberAndVehicleId
+  
   GET /Api/Vehicle/getAllVehicleDetailsByPolicyNumber
+  
   DELETE /Api/Vehicle/DeleteVehicleByPolicyNumberAndVehicleId
