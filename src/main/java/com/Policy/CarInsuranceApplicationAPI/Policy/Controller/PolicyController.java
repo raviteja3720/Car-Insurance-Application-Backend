@@ -1,0 +1,72 @@
+package com.Policy.CarInsuranceApplicationAPI.Policy.Controller;
+
+import com.Policy.CarInsuranceApplicationAPI.Policy.RequestPayload.CreatePolicyPayload;
+import com.Policy.CarInsuranceApplicationAPI.Policy.RequestPayload.InsuredPayload;
+import com.Policy.CarInsuranceApplicationAPI.Policy.Service.PolicyService;
+import jakarta.validation.*;
+import jakarta.validation.constraints.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("Api/Policies")
+public class PolicyController {
+
+    @Autowired
+    PolicyService policyService;
+
+    @PostMapping("CreatePolicy")
+    public ResponseEntity<?> CreatePolicy(@Valid @RequestBody CreatePolicyPayload policyPayload) {
+        return policyService.CreatePolicy(policyPayload);
+    }
+
+    @GetMapping("getAllPolicies")
+    public ResponseEntity<?> getAllPolicies(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "5") int size) {
+        return policyService.getAllPolicies(page, size);
+    }
+
+    @GetMapping("getPolicyDetailsByPolicyNumber/{policyNumber}")
+    public ResponseEntity<?> getPolicyDetailsByPolicyNumber(@PathVariable String policyNumber) {
+        return policyService.GetPolicyDetailsByPolicyNumber(policyNumber);
+    }
+
+    @Transactional
+    @PostMapping("updateInsuredDetails")
+    public ResponseEntity<?> updateInsuredDetails(@Valid @RequestBody InsuredPayload insured,
+                                                  @NotNull @RequestParam String PolicyNumber) {
+        return policyService.updateInsuredDetailsByInsuredName(insured, PolicyNumber);
+    }
+
+    @GetMapping("cancelPolicy/{PolicyNumber}")
+    public ResponseEntity<?> cancelPolicy(@PathVariable String PolicyNumber) {
+        return policyService.cancelPolicy(PolicyNumber);
+    }
+
+    @GetMapping("activatePolicy/{PolicyNumber}")
+    public ResponseEntity<?> activatePolicy(@PathVariable String PolicyNumber) {
+        return policyService.activatePolicy(PolicyNumber);
+    }
+
+    @GetMapping("getCoverageDetails/{PolicyNumber}")
+    public ResponseEntity<?> getCoverageDetails(@PathVariable String PolicyNumber){
+        return policyService.getCoverageDetails(PolicyNumber);
+    }
+
+
+
+//    @PostMapping("")
+//    @PostMapping("searchPolicyDetails")
+//    public List<PolicyResponse> searchPolicyDetails(@RequestBody PolicySearchRequest policySearchRequest) {
+//        try {
+//            return policyService.searchPolicyDetails(policySearchRequest);
+//        } catch (PolicyNotFoundException ex) {
+//            throw ex;
+//        } catch (Exception ex) {
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", ex);
+//        }
+//    }
+
+}
