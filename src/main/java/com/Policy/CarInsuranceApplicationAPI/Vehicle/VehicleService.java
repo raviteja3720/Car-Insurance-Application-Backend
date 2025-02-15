@@ -102,7 +102,12 @@ public class VehicleService implements IVehicleService {
         }
 
         Policy policy = policyRepository.findByPolicyNumber(policyNumber);
-        Vehicle addedVehicle = vehicleRepository.save(new Vehicle(vehicleRequest, policy));
+        Vehicle addedVehicle;
+        try {
+            addedVehicle = vehicleRepository.save(new Vehicle(vehicleRequest, policy));
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving Vehicle: " + e.getMessage(), e);
+        }
 
         return ResponseEntity.ok("Vehicle added to PolicyNumber: " + policyNumber + " with VehicleId " + addedVehicle.getVehicleId());
     }
@@ -145,8 +150,12 @@ public class VehicleService implements IVehicleService {
 
         ExistingVehicle.setPolicy(policy);
 
-        Vehicle updatedVehicle = vehicleRepository.save(ExistingVehicle);
-
+        Vehicle updatedVehicle;
+        try {
+            updatedVehicle = vehicleRepository.save(ExistingVehicle);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving Vehicle: " + e.getMessage(), e);
+        }
         return ResponseEntity.ok("Vehicle updated with VehicleId: " + updatedVehicle.getVehicleId() + " for Policy Number " + policy.getPolicyNumber());
     }
 

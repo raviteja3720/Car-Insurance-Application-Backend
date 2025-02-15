@@ -14,9 +14,13 @@ import java.time.LocalDateTime;
 public class CoveragePayload {
 
     @NotNull(message = "Vehicle ID cannot be null")
+    @Size(min = 7, max = 7, message = "VehicleId must have 7 characters")
+    @Pattern(regexp = "^V\\d{6}$", message = "VehicleId must follow the format V000000")
     private String vehicleId;
 
-    @NotNull(message = "Vehicle Number cannot be null")
+    @NotNull(message = "Vehicle number cannot be null")
+    @Size(min = 6, max = 12, message = "Vehicle Number must be between 6 and 12 characters")
+    @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Vehicle number must be alphanumeric")
     private String vehicleNumber;
 
     @NotNull(message = "Coverage code cannot be null")
@@ -31,7 +35,7 @@ public class CoveragePayload {
     private String coveragePremium;
 
     @NotNull(message = "Coverage limit cannot be null")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Coverage limit must be greater than zero")
+    @DecimalMin(value = "0.0", message = "Coverage limit must be greater than zero")
     private BigDecimal coverageLimit;
 
     @NotNull(message = "Coverage status cannot be null")

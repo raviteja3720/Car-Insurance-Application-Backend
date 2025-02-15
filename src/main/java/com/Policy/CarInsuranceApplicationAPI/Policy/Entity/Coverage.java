@@ -26,9 +26,13 @@ public class Coverage {
     private Policy policy;
 
     @NotNull(message = "Vehicle ID cannot be null")
+    @Size(min = 7, max = 7, message = "VehicleId must have 7 characters")
+    @Pattern(regexp = "^V\\d{6}$", message = "VehicleId must follow the format V000000")
     private String vehicleId;
 
-    @NotNull(message = "Vehicle Number cannot be null")
+    @NotNull(message = "Vehicle number cannot be null")
+    @Size(min = 6, max = 12, message = "Vehicle Number must be between 6 and 12 characters")
+    @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Vehicle number must be alphanumeric")
     private String vehicleNumber;
 
     @NotNull(message = "Coverage code cannot be null")
@@ -43,11 +47,10 @@ public class Coverage {
     private String coveragePremium;
 
     @NotNull(message = "Coverage limit cannot be null")
-    @DecimalMin(value = "0.00", inclusive = true, message = "Coverage limit cannot be negative")
+    @DecimalMin(value = "0.00", message = "Coverage limit cannot be negative")
     private BigDecimal coverageLimit;
 
     @NotNull(message = "Coverage status cannot be null")
-    @Size(min = 2, max = 50, message = "Coverage status must be between 2 and 50 characters")
     private String coverageStatus;
 
     @NotNull(message = "Effective date cannot be null")

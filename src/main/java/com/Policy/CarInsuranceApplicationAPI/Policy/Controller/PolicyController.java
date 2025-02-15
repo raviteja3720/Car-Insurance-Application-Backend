@@ -6,6 +6,7 @@ import com.Policy.CarInsuranceApplicationAPI.Policy.Service.PolicyService;
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,43 +19,49 @@ public class PolicyController {
     PolicyService policyService;
 
     @PostMapping("CreatePolicy")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> CreatePolicy(@Valid @RequestBody CreatePolicyPayload policyPayload) {
         return policyService.CreatePolicy(policyPayload);
     }
 
     @GetMapping("getAllPolicies")
-    public ResponseEntity<?> getAllPolicies(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<?> getAllPolicies(@Valid @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
         return policyService.getAllPolicies(page, size);
     }
 
     @GetMapping("getPolicyDetailsByPolicyNumber/{policyNumber}")
-    public ResponseEntity<?> getPolicyDetailsByPolicyNumber(@PathVariable String policyNumber) {
+    public ResponseEntity<?> getPolicyDetailsByPolicyNumber(@Valid @PathVariable
+                                                            @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
+                                                            String policyNumber) {
         return policyService.GetPolicyDetailsByPolicyNumber(policyNumber);
     }
 
     @Transactional
     @PostMapping("updateInsuredDetails")
     public ResponseEntity<?> updateInsuredDetails(@Valid @RequestBody InsuredPayload insured,
-                                                  @NotNull @RequestParam String PolicyNumber) {
+                                                  @RequestParam @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
+                                                  String PolicyNumber) {
         return policyService.updateInsuredDetailsByInsuredName(insured, PolicyNumber);
     }
 
     @GetMapping("cancelPolicy/{PolicyNumber}")
-    public ResponseEntity<?> cancelPolicy(@PathVariable String PolicyNumber) {
+    public ResponseEntity<?> cancelPolicy(@Valid @PathVariable @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
+                                          String PolicyNumber) {
         return policyService.cancelPolicy(PolicyNumber);
     }
 
     @GetMapping("activatePolicy/{PolicyNumber}")
-    public ResponseEntity<?> activatePolicy(@PathVariable String PolicyNumber) {
+    public ResponseEntity<?> activatePolicy(@Valid @PathVariable @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
+                                            String PolicyNumber) {
         return policyService.activatePolicy(PolicyNumber);
     }
 
     @GetMapping("getCoverageDetails/{PolicyNumber}")
-    public ResponseEntity<?> getCoverageDetails(@PathVariable String PolicyNumber){
+    public ResponseEntity<?> getCoverageDetails(@Valid @PathVariable @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
+                                                String PolicyNumber) {
         return policyService.getCoverageDetails(PolicyNumber);
     }
-
 
 
 //    @PostMapping("")

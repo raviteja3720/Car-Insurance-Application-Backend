@@ -29,10 +29,13 @@ public class Vehicle {
     private Policy policy;
 
     @NotNull(message = "Vehicle ID cannot be null")
+    @Size(min = 7, max = 7, message = "VehicleId must have 7 characters")
+    @Pattern(regexp = "^V\\d{6}$", message = "VehicleId must follow the format V000000")
     private String vehicleId;
 
     @NotNull(message = "Vehicle number cannot be null")
-    @Pattern(regexp = "^[A-Z0-9-]+$", message = "Vehicle number must be alphanumeric with dashes")
+    @Pattern(regexp = "^[A-Z0-9 ]+$", message = "Vehicle number must be alphanumeric")
+    @Size(min = 6, max = 12, message = "Vehicle Number must be between 6 and 12 characters")
     private String vehicleNumber;
 
     @NotNull(message = "Manufacturer cannot be null")

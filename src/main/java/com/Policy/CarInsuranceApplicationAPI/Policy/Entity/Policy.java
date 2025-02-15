@@ -23,6 +23,8 @@ public class Policy {
     @Id
     @Column(unique = true, nullable = false)
     @NotNull(message = "Policy number cannot be null")
+    @Size(min = 7, max = 7, message = "Policy number must have 7 characters")
+    @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
     private String policyNumber;
 
     @NotNull(message = "PolicyType cannot be null")

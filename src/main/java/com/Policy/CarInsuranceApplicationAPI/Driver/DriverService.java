@@ -107,8 +107,12 @@ public class DriverService implements IDriverService {
         }
 
         Policy policy = policyRepository.findByPolicyNumber(policyNumber);
-        Driver addedDriver = driverRepository.save(new Driver(driverRequest, policy));
-
+        Driver addedDriver;
+        try {
+            addedDriver = driverRepository.save(new Driver(driverRequest, policy));
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving Driver: " + e.getMessage(), e);
+        }
         return ResponseEntity.ok("Driver added to PolicyNumber: " + policyNumber + " with DriverId " + addedDriver.getDriverId());
     }
 
@@ -149,8 +153,12 @@ public class DriverService implements IDriverService {
 
         existingDriver.setPolicy(policy);
 
-        Driver updatedDriver = driverRepository.save(existingDriver);
-
+        Driver updatedDriver;
+        try {
+            updatedDriver = driverRepository.save(existingDriver);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving Driver: " + e.getMessage(), e);
+        }
         return ResponseEntity.ok("Driver updated with DriverId: " + updatedDriver.getDriverId() + " for Policy Number " + policy.getPolicyNumber());
     }
 

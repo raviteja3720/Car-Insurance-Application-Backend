@@ -30,6 +30,8 @@ public class Driver {
     private Policy policy;
 
     @NotNull(message = "Driver ID cannot be null")
+    @Size(min = 7, max = 7, message = "DriverId must have 7 characters")
+    @Pattern(regexp = "^D\\d{6}$", message = "DriverId must follow the format D000000")
     private String driverId;
 
     @NotNull(message = "First name cannot be null")
@@ -54,6 +56,7 @@ public class Driver {
 
     @NotNull(message = "Driver license ID cannot be null")
     @Pattern(regexp = "^[A-Za-z0-9]+$", message = "License ID must be alphanumeric")
+    @Size(min = 6, max = 12, message = "Driver LicenseId must be between 6 and 12 characters")
     private String driverLicenseId;
 
     @NotNull(message = "Licensed current state cannot be null")

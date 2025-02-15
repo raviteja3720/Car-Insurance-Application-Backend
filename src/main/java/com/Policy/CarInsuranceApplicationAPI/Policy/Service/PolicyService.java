@@ -215,7 +215,11 @@ public class PolicyService implements IPolicyService {
                         existingInsured.setModifiedBy(insured.getModifiedBy());
                     }
                     existingInsured.setModifiedDate(LocalDateTime.now());
-                    return insuredRepository.save(existingInsured);
+                    try {
+                        return insuredRepository.save(existingInsured);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Error saving Insured: " + e.getMessage(), e);
+                    }
                 })
                 .orElseThrow(() -> new InsuredNotFoundException("Insured not found with name: " + insured.getFullName()));
 
@@ -232,10 +236,13 @@ public class PolicyService implements IPolicyService {
             existingDriver.setLastName(insured.getLastName());
             existingDriver.setPolicy(policy);
 
-            driverRepository.save(existingDriver);
+            try {
+                driverRepository.save(existingDriver);
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving Driver: " + e.getMessage(), e);
+            }
         }
         return ResponseEntity.ok(toInsuredResponseDTO(insuredDetails));
-
     }
 
     @Override

@@ -15,7 +15,8 @@ import java.util.List;
 public class CreatePolicyPayload {
 
     @NotNull(message = "Policy number cannot be null")
-    @Size(min = 6, max = 20, message = "Policy number must be between 6 and 20 characters")
+    @Size(min = 7, max = 7, message = "Policy number must have 7 characters")
+    @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
     private String policyNumber;
 
     @NotNull(message = "Policy type cannot be null")
