@@ -16,6 +16,8 @@ Sequence Number Generation: Auto-generate policy numbers, vehicle IDs, and drive
 
 API Documentation: Swagger UI for easy API exploration and testing.
 
+-----------------------------------
+
 Tech Stack
 
 Backend: Java, Spring Boot, Spring Data JPA
@@ -33,6 +35,8 @@ Java 17+
 Maven 3+
 
 MySQL/PostgreSQL database
+
+-----------------------------------
 
 Steps to Run
 
@@ -57,7 +61,7 @@ Access the API documentation at:
 
 http://localhost:8080/swagger-ui/index.html
 
-
+-----------------------------------
 
 REST API Endpoints
 
@@ -77,7 +81,7 @@ POLICY CONTROLLER
   
   GET /Api/Policies/activatePolicy/{PolicyNumber}
   
-
+.
 
 SEQUENCE NUMBER CONTROLLER
 
@@ -87,7 +91,7 @@ SEQUENCE NUMBER CONTROLLER
   
   GET /Api/Policies/generateDriverId
 
-
+.
 
 DRIVER CONTROLLER
 
@@ -101,7 +105,7 @@ DRIVER CONTROLLER
   
   DELETE /Api/Driver/DeleteDriverByPolicyNumberAndDriverId
   
-
+.
 
 VEHICLE CONTROLLER
 
