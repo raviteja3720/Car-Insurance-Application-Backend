@@ -1,4 +1,4 @@
-Car Insurance API
+Car Insurance Application Backend API
 
 Overview
 
@@ -61,7 +61,7 @@ http://localhost:8080/swagger-ui/index.html
 
 REST API Endpoints
 
-Policy Controller
+POLICY CONTROLLER
 
   POST /Api/Policies/updateInsuredDetails
   
@@ -79,7 +79,7 @@ Policy Controller
   
 
 
-Sequence Number Controller
+SEQUENCE NUMBER CONTROLLER
 
   GET /Api/Policies/generateVehicleId
   
@@ -89,7 +89,7 @@ Sequence Number Controller
 
 
 
-Driver Controller
+DRIVER CONTROLLER
 
   POST /Api/Driver/updateDriverByPolicyNumberAndDriverId
   
@@ -103,7 +103,7 @@ Driver Controller
   
 
 
-Vehicle Controller
+VEHICLE CONTROLLER
 
   POST /Api/Vehicle/updateVehicleByPolicyNumberAndVehicleId
   
@@ -112,5 +112,7 @@ Vehicle Controller
   GET /Api/Vehicle/getVehicleDetailsByPolicyNumberAndVehicleId
   
   GET /Api/Vehicle/getAllVehicleDetailsByPolicyNumber
+
+  GET /Api/Vehicle/getVehicleDetailsByVehicleNumber
   
   DELETE /Api/Vehicle/DeleteVehicleByPolicyNumberAndVehicleId
