@@ -13,7 +13,12 @@ import java.time.*;
 import java.util.List;
 
 @Entity
-@Table(name = "policies")
+@Table(name = "policies", indexes = {
+        @Index(name = "idx_policy_number", columnList = "policyNumber"),
+        @Index(name = "idx_policy_type", columnList = "policyType"),
+        @Index(name = "idx_policy_status", columnList = "policyStatus"),
+
+})
 @Getter
 @Setter
 @NoArgsConstructor

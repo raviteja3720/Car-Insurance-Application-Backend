@@ -31,6 +31,11 @@ public class VehicleController {
         return vehicleService.getVehicleDetailsByPolicyNumberAndVehicleId(PolicyNumber, VehicleId);
     }
 
+    @GetMapping("getVehicleDetailsByVehicleNumber")
+    public ResponseEntity<?> getVehicleDetailsByVehicleNumber(@RequestParam String vehicleNumber){
+        return vehicleService.getVehicleDetailsByVehicleNumber(vehicleNumber);
+    }
+
     @PostMapping("addVehicleByPolicyNumber")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addVehicleByPolicyNumber(@RequestBody VehiclePayload vehicleRequest,

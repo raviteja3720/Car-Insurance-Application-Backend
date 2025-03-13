@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("Api/Policies")
 public class PolicyController {
@@ -20,18 +22,18 @@ public class PolicyController {
 
     @PostMapping("CreatePolicy")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> CreatePolicy(@Valid @RequestBody CreatePolicyPayload policyPayload) {
+    public CompletableFuture<ResponseEntity<?>> CreatePolicy(@Valid @RequestBody CreatePolicyPayload policyPayload) {
         return policyService.CreatePolicy(policyPayload);
     }
 
     @GetMapping("getAllPolicies")
-    public ResponseEntity<?> getAllPolicies(@Valid @RequestParam(defaultValue = "0") int page,
+    public CompletableFuture<?> getAllPolicies(@Valid @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
         return policyService.getAllPolicies(page, size);
     }
 
     @GetMapping("getPolicyDetailsByPolicyNumber/{policyNumber}")
-    public ResponseEntity<?> getPolicyDetailsByPolicyNumber(@Valid @PathVariable
+    public CompletableFuture<ResponseEntity<?>> getPolicyDetailsByPolicyNumber(@Valid @PathVariable
                                                             @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
                                                             String policyNumber) {
         return policyService.GetPolicyDetailsByPolicyNumber(policyNumber);

@@ -10,9 +10,8 @@ import java.util.*;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Boolean existsByVehicleNumber(String vehicleNumber);
 
-    List<Vehicle> findByPolicy_PolicyNumber(String policyNumber);
-
     //    ResponseEntity<?> getAllVehiclesByPolicy_PolicyNumber(String policyNumber);
+
     List<Vehicle> getAllVehiclesByPolicy_PolicyNumber(String policyNumber);
 
     Boolean existsByVehicleId(String vehicleId);
@@ -27,4 +26,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Vehicle getVehicleByPolicy_PolicyNumberAndIsPrimaryVehicleTrue(String policyNumber);
 
     Optional<Vehicle> findByPolicy_PolicyNumberAndIsPrimaryVehicleTrue(String policyNumber);
+
+    Vehicle getVehicleByVehicleNumber(String vehicleNumber);
 }

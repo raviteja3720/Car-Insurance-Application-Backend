@@ -1,12 +1,12 @@
 package com.Policy.CarInsuranceApplicationAPI;
 
-import jakarta.annotation.PostConstruct;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
+@EnableAsync
 public class CarInsuranceApplication {
 
 //    @Value("${username}")

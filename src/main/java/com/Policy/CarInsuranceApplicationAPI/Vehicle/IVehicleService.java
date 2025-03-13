@@ -7,6 +7,8 @@ public interface IVehicleService {
 
     ResponseEntity<?> getVehicleDetailsByPolicyNumberAndVehicleId(String policyNumber, String vehicleId);
 
+    ResponseEntity<?> getVehicleDetailsByVehicleNumber(String vehicleNumber);
+
     ResponseEntity<?> addVehicleByPolicyNumber(VehiclePayload vehicleRequest, String policyNumber);
 
     ResponseEntity<?> updateVehicleByPolicyNumberAndVehicleId(VehiclePayload vehicleRequest, String policyNumber);

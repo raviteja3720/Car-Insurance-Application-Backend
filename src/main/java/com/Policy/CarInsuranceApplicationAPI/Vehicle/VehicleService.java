@@ -1,16 +1,14 @@
 package com.Policy.CarInsuranceApplicationAPI.Vehicle;
 
 import com.Policy.CarInsuranceApplicationAPI.GlobalException.ErrorResponse;
-import com.Policy.CarInsuranceApplicationAPI.GlobalException.VehicleNotFoundException;
 import com.Policy.CarInsuranceApplicationAPI.Policy.Entity.Policy;
 import com.Policy.CarInsuranceApplicationAPI.Policy.Repository.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
@@ -27,6 +25,7 @@ public class VehicleService implements IVehicleService {
     PolicyRepository policyRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<?> getAllVehicleDetailsByPolicyNumber(String policyNumber) {
 
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
@@ -80,6 +79,22 @@ public class VehicleService implements IVehicleService {
     }
 
     @Override
+    public ResponseEntity<?> getVehicleDetailsByVehicleNumber(String vehicleNumber) {
+
+        if (vehicleNumber == null || vehicleNumber.trim().isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse(400, "Invalid vehicle Number ", "vehicle Number cannot be null or empty "));
+        }
+
+        if (!vehicleRepository.existsByVehicleNumber(vehicleNumber)) {
+            return ResponseEntity.badRequest().body(new ErrorResponse(400, "Vehicle not found", "No Vehicle found with Vehicle Number: " + vehicleNumber));
+        }
+
+        Vehicle vehicle = vehicleRepository.getVehicleByVehicleNumber(vehicleNumber);
+        return ResponseEntity.ok(new VehicleResponse(vehicle));
+    }
+
+    @Override
     public ResponseEntity<?> addVehicleByPolicyNumber(VehiclePayload vehicleRequest, String policyNumber) {
 
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
@@ -113,6 +128,7 @@ public class VehicleService implements IVehicleService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> updateVehicleByPolicyNumberAndVehicleId(VehiclePayload vehicleRequest, String policyNumber) {
 
         if (policyNumber == null || policyNumber.trim().isEmpty()) {

@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,6 +23,7 @@ public class DriverService implements IDriverService {
     PolicyRepository policyRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<?> getAllDriverDetailsByPolicyNumber(String policyNumber) {
 
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
@@ -117,6 +118,7 @@ public class DriverService implements IDriverService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> updateDriverByPolicyNumberAndDriverId(DriverPayload driverRequest, String policyNumber) {
 
         if (policyNumber == null || policyNumber.trim().isEmpty()) {

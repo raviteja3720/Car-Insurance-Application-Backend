@@ -21,13 +21,14 @@ import com.Policy.CarInsuranceApplicationAPI.Vehicle.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static com.Policy.CarInsuranceApplicationAPI.Policy.PolicyConversion.*;
 
@@ -49,7 +50,8 @@ public class PolicyService implements IPolicyService {
 
     @Transactional
     @Override
-    public ResponseEntity<?> CreatePolicy(CreatePolicyPayload policyDTO) {
+    @Async
+    public CompletableFuture<ResponseEntity<?>> CreatePolicy(CreatePolicyPayload policyDTO) {
 
         if (policyDTO == null) {
             throw new IllegalArgumentException("Policy payload cannot be null.");
@@ -67,6 +69,7 @@ public class PolicyService implements IPolicyService {
 //                vehicleRepository.existsByVehicleNumber(policyDTO.getVehicles().get(0).getVehicleNumber())) {
 //            throw new IllegalArgumentException("Vehicle with this registration number already exists.");
 //        }
+
         if (policyDTO.getVehicles() != null && !policyDTO.getVehicles().isEmpty()) {
             for (VehiclePayload vehicleDTO : policyDTO.getVehicles()) {
                 if (vehicleRepository.existsByVehicleNumber(vehicleDTO.getVehicleNumber())) {
@@ -145,37 +148,43 @@ public class PolicyService implements IPolicyService {
             });
         }
 
-        return ResponseEntity.ok("Policy created successfully with Policy Number " + policyDTO.getPolicyNumber());
+        return CompletableFuture.completedFuture(ResponseEntity.ok("Policy created successfully with Policy Number " + policyDTO.getPolicyNumber()));
     }
 
     @Override
-    public ResponseEntity<?> getAllPolicies(int page, int size) {
+    @Async
+    @Transactional(readOnly = true)
+    public CompletableFuture<?> getAllPolicies(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Policy> policies = policyRepository.findAll(pageable);
         if (policies.isEmpty()) {
             throw new PolicyNotFoundException("No policies found. ");
+
         }
-        return ResponseEntity.ok(PolicyToPolicyResponse(policies.getContent()));
+        return CompletableFuture.completedFuture(ResponseEntity.ok(PolicyToPolicyResponse(policies.getContent())));
     }
 
     @Override
-    public ResponseEntity<?> GetPolicyDetailsByPolicyNumber(String policyNumber) {
+    @Async
+    public CompletableFuture<ResponseEntity<?>> GetPolicyDetailsByPolicyNumber(String policyNumber) {
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty"));
+            return CompletableFuture.completedFuture(ResponseEntity.badRequest().body(
+                    new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty")));
         }
 
         if (!policyRepository.existsByPolicyNumber(policyNumber)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(404, "Policy Not Found", "No policy found with policy number: " + policyNumber));
+            return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse(404, "Policy Not Found", "No policy found with policy number: " + policyNumber)));
         }
         Policy policy = policyRepository.findByPolicyNumber(policyNumber);
         if (policy != null) {
-            return ResponseEntity.ok(PolicyEntitytoPolicyResponse(policy));
+            return CompletableFuture.completedFuture(ResponseEntity.ok(PolicyEntitytoPolicyResponse(policy)));
         } else
             throw new PolicyNotFoundException("Policy is not found with Policy Number " + policyNumber);
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> updateInsuredDetailsByInsuredName(InsuredPayload insured, String PolicyNumber) {
         if (PolicyNumber == null || PolicyNumber.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty"));
@@ -223,7 +232,7 @@ public class PolicyService implements IPolicyService {
                 })
                 .orElseThrow(() -> new InsuredNotFoundException("Insured not found with name: " + insured.getFullName()));
 
-        Driver existingDriver = null;
+        Driver existingDriver;
         if (driverRepository.existsByPolicy_PolicyNumber(PolicyNumber)) {
             existingDriver = driverRepository.getDriverByFirstName(insured.getFirstName());
         } else {

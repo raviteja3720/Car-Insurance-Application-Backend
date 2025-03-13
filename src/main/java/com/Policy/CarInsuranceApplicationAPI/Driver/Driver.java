@@ -12,7 +12,11 @@ import java.time.*;
 @Table(
         name = "drivers",
         uniqueConstraints = @UniqueConstraint(columnNames = {"policyNumber", "isInsured"},
-                name = "unique_primary_driver_per_policy")
+                name = "unique_primary_driver_per_policy"),
+        indexes = {
+                @Index(name = "idx_driver_id", columnList = "driverId"),
+        }
+
 )
 @Getter
 @Setter
