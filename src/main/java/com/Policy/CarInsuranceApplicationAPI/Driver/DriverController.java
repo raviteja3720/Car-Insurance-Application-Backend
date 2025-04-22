@@ -47,7 +47,7 @@ public class DriverController {
         return driverService.updateDriverByPolicyNumberAndDriverId(driverRequest, PolicyNumber);
     }
 
-    @Transactional
+
     @DeleteMapping("DeleteDriverByPolicyNumberAndDriverId")
     public ResponseEntity<?> DeleteDriverByPolicyNumberAndDriverId(@Valid @RequestParam
                                                                    @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")

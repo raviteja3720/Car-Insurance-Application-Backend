@@ -50,8 +50,7 @@ public class PolicyService implements IPolicyService {
 
     @Transactional
     @Override
-    @Async
-    public CompletableFuture<ResponseEntity<?>> CreatePolicy(CreatePolicyPayload policyDTO) {
+    public ResponseEntity<?> CreatePolicy(CreatePolicyPayload policyDTO) {
 
         if (policyDTO == null) {
             throw new IllegalArgumentException("Policy payload cannot be null.");
@@ -148,7 +147,7 @@ public class PolicyService implements IPolicyService {
             });
         }
 
-        return CompletableFuture.completedFuture(ResponseEntity.ok("Policy created successfully with Policy Number " + policyDTO.getPolicyNumber()));
+        return ResponseEntity.ok("Policy created successfully with Policy Number " + policyDTO.getPolicyNumber());
     }
 
     @Override
@@ -165,20 +164,19 @@ public class PolicyService implements IPolicyService {
     }
 
     @Override
-    @Async
-    public CompletableFuture<ResponseEntity<?>> GetPolicyDetailsByPolicyNumber(String policyNumber) {
+    public ResponseEntity<?> GetPolicyDetailsByPolicyNumber(String policyNumber) {
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
-            return CompletableFuture.completedFuture(ResponseEntity.badRequest().body(
-                    new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty")));
+            return ResponseEntity.badRequest().body(
+                    new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty"));
         }
 
         if (!policyRepository.existsByPolicyNumber(policyNumber)) {
-            return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(404, "Policy Not Found", "No policy found with policy number: " + policyNumber)));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse(404, "Policy Not Found", "No policy found with policy number: " + policyNumber));
         }
         Policy policy = policyRepository.findByPolicyNumber(policyNumber);
         if (policy != null) {
-            return CompletableFuture.completedFuture(ResponseEntity.ok(PolicyEntitytoPolicyResponse(policy)));
+            return ResponseEntity.ok(PolicyEntitytoPolicyResponse(policy));
         } else
             throw new PolicyNotFoundException("Policy is not found with Policy Number " + policyNumber);
     }
@@ -284,6 +282,10 @@ public class PolicyService implements IPolicyService {
                     .body(new ErrorResponse(404, "Policy Not Found", "No policy found with policy number: " + PolicyNumber));
         }
         Policy policy = policyRepository.findByPolicyNumber(PolicyNumber);
+
+        if (policy.getIsActive()) {
+            return ResponseEntity.ok("Policy is already active.");
+        }
         policy.setIsActive(true);
         policyRepository.save(policy);
         return ResponseEntity.ok("The policy with policy number " + PolicyNumber + " has been Activated.");

@@ -9,11 +9,11 @@ import java.util.concurrent.CompletableFuture;
 
 public interface IPolicyService {
 
-    CompletableFuture<ResponseEntity<?>> CreatePolicy( CreatePolicyPayload policyPayload);
-
     CompletableFuture<?> getAllPolicies(int page, int size);
 
-    CompletableFuture<ResponseEntity<?>> GetPolicyDetailsByPolicyNumber(String policyNumber);
+    ResponseEntity<?> CreatePolicy( CreatePolicyPayload policyPayload);
+
+    ResponseEntity<?> GetPolicyDetailsByPolicyNumber(String policyNumber);
 
     ResponseEntity<?> updateInsuredDetailsByInsuredName(InsuredPayload insured, String PolicyNumber);
 

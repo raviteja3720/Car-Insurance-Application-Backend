@@ -44,7 +44,6 @@ public class VehicleController {
         return vehicleService.addVehicleByPolicyNumber(vehicleRequest, PolicyNumber);
     }
 
-    @Transactional
     @PostMapping("updateVehicleByPolicyNumberAndVehicleId")
     public ResponseEntity<?> updateVehicleByPolicyNumberAndVehicleId(@RequestBody VehiclePayload vehicleRequest,
                                                                      @RequestParam @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
@@ -52,7 +51,6 @@ public class VehicleController {
         return vehicleService.updateVehicleByPolicyNumberAndVehicleId(vehicleRequest, PolicyNumber);
     }
 
-    @Transactional
     @DeleteMapping("DeleteVehicleByPolicyNumberAndVehicleId")
     public ResponseEntity<?> DeleteVehicleByPolicyNumberAndVehicleId(@RequestParam @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
                                                                      String PolicyNumber,

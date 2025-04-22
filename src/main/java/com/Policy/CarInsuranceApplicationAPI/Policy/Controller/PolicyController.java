@@ -20,26 +20,25 @@ public class PolicyController {
     @Autowired
     PolicyService policyService;
 
-    @PostMapping("CreatePolicy")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CompletableFuture<ResponseEntity<?>> CreatePolicy(@Valid @RequestBody CreatePolicyPayload policyPayload) {
-        return policyService.CreatePolicy(policyPayload);
-    }
-
     @GetMapping("getAllPolicies")
     public CompletableFuture<?> getAllPolicies(@Valid @RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "5") int size) {
+                                               @RequestParam(defaultValue = "5") int size) {
         return policyService.getAllPolicies(page, size);
     }
 
+    @PostMapping("CreatePolicy")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> CreatePolicy(@Valid @RequestBody CreatePolicyPayload policyPayload) {
+        return policyService.CreatePolicy(policyPayload);
+    }
+
     @GetMapping("getPolicyDetailsByPolicyNumber/{policyNumber}")
-    public CompletableFuture<ResponseEntity<?>> getPolicyDetailsByPolicyNumber(@Valid @PathVariable
+    public ResponseEntity<?> getPolicyDetailsByPolicyNumber(@Valid @PathVariable
                                                             @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
                                                             String policyNumber) {
         return policyService.GetPolicyDetailsByPolicyNumber(policyNumber);
     }
 
-    @Transactional
     @PostMapping("updateInsuredDetails")
     public ResponseEntity<?> updateInsuredDetails(@Valid @RequestBody InsuredPayload insured,
                                                   @RequestParam @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
@@ -53,7 +52,7 @@ public class PolicyController {
         return policyService.cancelPolicy(PolicyNumber);
     }
 
-    @GetMapping("activatePolicy/{PolicyNumber}")
+    @PutMapping("activatePolicy/{PolicyNumber}")
     public ResponseEntity<?> activatePolicy(@Valid @PathVariable @Pattern(regexp = "^P\\d{6}$", message = "Policy number must follow the format P000000")
                                             String PolicyNumber) {
         return policyService.activatePolicy(PolicyNumber);

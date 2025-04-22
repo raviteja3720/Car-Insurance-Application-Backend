@@ -165,6 +165,7 @@ public class DriverService implements IDriverService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> DeleteDriverByPolicyNumberAndDriverId(String policyNumber, String driverId) {
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty"));

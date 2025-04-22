@@ -10,21 +10,19 @@ public class SequenceGeneratorService {
     @Autowired
     private SequenceRepository sequenceRepository;
 
-    @Transactional
     public String generatePolicyNumber() {
         return generateSequence("PolicyNumber", "P");
     }
 
-    @Transactional
     public String generateDriverId() {
         return generateSequence("DriverId", "D");
     }
 
-    @Transactional
     public String generateVehicleId() {
         return generateSequence("VehicleId", "V");
     }
 
+    @Transactional
     private String generateSequence(String type, String prefix) {
         Sequence sequence = sequenceRepository.findById(type)
                 .orElseThrow(() -> new RuntimeException("Sequence not found for type: " + type));

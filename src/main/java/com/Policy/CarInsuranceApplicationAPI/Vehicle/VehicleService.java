@@ -176,6 +176,7 @@ public class VehicleService implements IVehicleService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> DeleteVehicleByPolicyNumberAndVehicleId(String policyNumber, String vehicleId) {
         if (policyNumber == null || policyNumber.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(new ErrorResponse(400, "Invalid Policy Number", "Policy number cannot be null or empty"));
