@@ -1,4 +1,4 @@
-Car Insurance API
+Car Insurance Application Backend API
 
 Overview
 
@@ -15,6 +15,8 @@ Driver Management: Manage drivers associated with policies.
 Sequence Number Generation: Auto-generate policy numbers, vehicle IDs, and driver IDs.
 
 API Documentation: Swagger UI for easy API exploration and testing.
+
+-----------------------------------
 
 Tech Stack
 
@@ -33,6 +35,8 @@ Java 17+
 Maven 3+
 
 MySQL/PostgreSQL database
+
+-----------------------------------
 
 Steps to Run
 
@@ -57,11 +61,11 @@ Access the API documentation at:
 
 http://localhost:8080/swagger-ui/index.html
 
-
+-----------------------------------
 
 REST API Endpoints
 
-Policy Controller
+POLICY CONTROLLER
 
   POST /Api/Policies/updateInsuredDetails
   
@@ -77,9 +81,9 @@ Policy Controller
   
   GET /Api/Policies/activatePolicy/{PolicyNumber}
   
+.
 
-
-Sequence Number Controller
+SEQUENCE NUMBER CONTROLLER
 
   GET /Api/Policies/generateVehicleId
   
@@ -87,9 +91,9 @@ Sequence Number Controller
   
   GET /Api/Policies/generateDriverId
 
+.
 
-
-Driver Controller
+DRIVER CONTROLLER
 
   POST /Api/Driver/updateDriverByPolicyNumberAndDriverId
   
@@ -101,9 +105,9 @@ Driver Controller
   
   DELETE /Api/Driver/DeleteDriverByPolicyNumberAndDriverId
   
+.
 
-
-Vehicle Controller
+VEHICLE CONTROLLER
 
   POST /Api/Vehicle/updateVehicleByPolicyNumberAndVehicleId
   
@@ -112,5 +116,7 @@ Vehicle Controller
   GET /Api/Vehicle/getVehicleDetailsByPolicyNumberAndVehicleId
   
   GET /Api/Vehicle/getAllVehicleDetailsByPolicyNumber
+
+  GET /Api/Vehicle/getVehicleDetailsByVehicleNumber
   
   DELETE /Api/Vehicle/DeleteVehicleByPolicyNumberAndVehicleId
